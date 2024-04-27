@@ -23,4 +23,8 @@ class UserRepository {
     fun findAll() = users.values.toList()
 
     fun findByIdOrNull(id: Long) = users[id]
+
+    fun deleteById(id: Long) {
+        users.remove(id)
+    }
 }

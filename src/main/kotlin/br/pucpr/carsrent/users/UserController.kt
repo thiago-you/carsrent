@@ -1,14 +1,9 @@
 package br.pucpr.carsrent.users
 
 import jakarta.validation.Valid
-import jakarta.websocket.server.PathParam
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/users")
@@ -16,7 +11,7 @@ class UserController(
     val userService: UserService
 ) {
     @PostMapping
-    fun insert(@Valid @RequestBody userRequest: UserRequest) = userService.save(userRequest.toUser())
+    fun insert(@Valid @RequestBody userRequest: UserRequest) = ResponseEntity.status(HttpStatus.CREATED)
 
     @GetMapping
     fun findAll() = userService.findAll()
@@ -26,4 +21,7 @@ class UserController(
         val user = userService.findByIdOrNull(id) ?: return ResponseEntity.notFound().build()
         return ResponseEntity.ok(user)
     }
+
+    @DeleteMapping("/{id}")
+    fun deleteById(@PathVariable id: Long) = userService.deleteById(id)
 }

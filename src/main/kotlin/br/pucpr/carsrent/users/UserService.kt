@@ -11,4 +11,6 @@ class UserService(
     fun findAll() = userRepository.findAll()
 
     fun findByIdOrNull(id: Long) = userRepository.findByIdOrNull(id)
+
+    fun deleteById(id: Long) = userRepository.deleteById(id)
 }

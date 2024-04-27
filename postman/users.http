@@ -1,0 +1,15 @@
+### create a user
+POST localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "name": "Thiago You",
+  "email": "thiago.you@pucpr.com",
+  "password": "password"
+}
+
+### get all users
+GET localhost:8080/api/users
+
+### get the first user
+GET localhost:8080/api/users/1
