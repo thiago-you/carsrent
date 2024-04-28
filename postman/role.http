@@ -1,0 +1,11 @@
+### create a role
+POST localhost:8080/api/roles
+Content-Type: application/json
+
+{
+  "name": "Admin",
+  "description": "API Admin"
+}
+
+### get all roles
+GET localhost:8080/api/roles
