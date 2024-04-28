@@ -17,9 +17,8 @@ class UserController(
 
     @GetMapping
     fun findAll(sortDir: String? = null) = SortDir.byName(sortDir)
-        ?.let { userService.findAll(it) }
-        ?.let { ResponseEntity.ok(it) }
-        ?: ResponseEntity.badRequest().build()
+        .let { userService.findAll(it) }
+        .let { ResponseEntity.ok(it) }
 
     @GetMapping("/{id}")
     fun findById(@PathVariable id: Long): ResponseEntity<User> = userService.findByIdOrNull(id)
@@ -29,6 +28,5 @@ class UserController(
     @DeleteMapping("/{id}")
     fun deleteById(@PathVariable id: Long): ResponseEntity<Void> =
         userService.deleteById(id)
-            ?.let { ResponseEntity.ok().build() }
-            ?: ResponseEntity.notFound().build()
+            .let { ResponseEntity.ok().build() }
 }

@@ -4,6 +4,6 @@ enum class SortDir {
     ASC, DESC;
 
     companion object {
-        fun byName(value: String?) = entries.firstOrNull { it.name.equals(value, ignoreCase = true) }
+        fun byName(value: String?) = entries.firstOrNull { it.name.equals(value, ignoreCase = true) } ?: ASC
     }
 }
