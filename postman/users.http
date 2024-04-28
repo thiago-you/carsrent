@@ -13,3 +13,6 @@ GET localhost:8080/api/users
 
 ### get the first user
 GET localhost:8080/api/users/1
+
+### delete the first user
+DELETE localhost:8080/api/users/1

@@ -20,11 +20,12 @@ class UserRepository {
         return user
     }
 
-    fun findAll() = users.values.toList()
+    fun findAll(sortDir: SortDir) = when (sortDir) {
+        SortDir.ASC -> users.values.sortedBy { it.name }
+        SortDir.DESC -> users.values.sortedByDescending { it.name }
+    }
 
     fun findByIdOrNull(id: Long) = users[id]
 
-    fun deleteById(id: Long) {
-        users.remove(id)
-    }
+    fun deleteById(id: Long) = users.remove(id)
 }

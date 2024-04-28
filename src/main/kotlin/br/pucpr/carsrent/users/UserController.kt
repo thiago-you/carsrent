@@ -11,17 +11,24 @@ class UserController(
     val userService: UserService
 ) {
     @PostMapping
-    fun insert(@Valid @RequestBody userRequest: UserRequest) = ResponseEntity.status(HttpStatus.CREATED)
+    fun insert(@Valid @RequestBody userRequest: UserRequest): ResponseEntity<User> = userRequest.toUser()
+        .let { userService.save(it) }
+        .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
 
     @GetMapping
-    fun findAll() = userService.findAll()
+    fun findAll(sortDir: String? = null) = SortDir.byName(sortDir)
+        ?.let { userService.findAll(it) }
+        ?.let { ResponseEntity.ok(it) }
+        ?: ResponseEntity.badRequest().build()
 
     @GetMapping("/{id}")
-    fun findByIdOrNull(@PathVariable id: Long): ResponseEntity<User> {
-        val user = userService.findByIdOrNull(id) ?: return ResponseEntity.notFound().build()
-        return ResponseEntity.ok(user)
-    }
+    fun findById(@PathVariable id: Long): ResponseEntity<User> = userService.findByIdOrNull(id)
+            ?.let { ResponseEntity.ok(it) }
+            ?: ResponseEntity.notFound().build()
 
     @DeleteMapping("/{id}")
-    fun deleteById(@PathVariable id: Long) = userService.deleteById(id)
+    fun deleteById(@PathVariable id: Long): ResponseEntity<Void> =
+        userService.deleteById(id)
+            ?.let { ResponseEntity.ok().build() }
+            ?: ResponseEntity.notFound().build()
 }

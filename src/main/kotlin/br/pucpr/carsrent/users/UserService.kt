@@ -8,7 +8,7 @@ class UserService(
 ) {
     fun save(user: User) = userRepository.save(user)
 
-    fun findAll() = userRepository.findAll()
+    fun findAll(sortDir: SortDir) = userRepository.findAll(sortDir)
 
     fun findByIdOrNull(id: Long) = userRepository.findByIdOrNull(id)
 
