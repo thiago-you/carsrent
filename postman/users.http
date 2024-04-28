@@ -16,3 +16,12 @@ GET localhost:8080/api/users/1
 
 ### delete the first user
 DELETE localhost:8080/api/users/1
+
+### grant role to user
+POST localhost:8080/api/users/1/role/ADMIN
+Content-Type: application/json
+
+{
+  "id": 1,
+  "role": "Admin"
+}

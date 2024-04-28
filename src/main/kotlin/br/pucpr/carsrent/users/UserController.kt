@@ -29,4 +29,12 @@ class UserController(
     fun deleteById(@PathVariable id: Long): ResponseEntity<Void> =
         userService.deleteById(id)
             .let { ResponseEntity.ok().build() }
+
+    @PutMapping("/{id}/roles/{role}")
+    fun grant(
+        @PathVariable id: Long,
+        @PathVariable role: String
+    ): ResponseEntity<Void> =
+        if (userService.addRole(id, role)) ResponseEntity.ok().build()
+        else ResponseEntity.noContent().build()
 }

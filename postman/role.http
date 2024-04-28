@@ -3,7 +3,7 @@ POST localhost:8080/api/roles
 Content-Type: application/json
 
 {
-  "name": "Admin",
+  "name": "ADMIN",
   "description": "API Admin"
 }
 

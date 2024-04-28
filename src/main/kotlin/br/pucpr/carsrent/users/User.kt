@@ -1,10 +1,7 @@
 package br.pucpr.carsrent.users
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import br.pucpr.carsrent.roles.Role
+import jakarta.persistence.*
 import org.jetbrains.annotations.NotNull
 
 @Entity
@@ -19,4 +16,11 @@ class User(
     var password: String = "",
     @NotNull
     var name: String = "",
+    @ManyToMany
+    @JoinTable(
+        name = "UserRoles",
+        joinColumns = [JoinColumn(name = "idUser")],
+        inverseJoinColumns = [JoinColumn(name = "idRole")]
+    )
+    var roles: MutableSet<Role> = mutableSetOf()
 )
