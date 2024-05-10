@@ -11,17 +11,20 @@ class UserController(
     val userService: UserService
 ) {
     @PostMapping
-    fun insert(@Valid @RequestBody userRequest: UserRequest): ResponseEntity<User> = userRequest.toUser()
+    fun insert(@Valid @RequestBody userRequest: UserRequest): ResponseEntity<UserResponse> = userRequest.toUser()
         .let { userService.save(it) }
+        .let { UserResponse(it) }
         .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
 
     @GetMapping
     fun findAll(@RequestParam sortDir: String? = null, @RequestParam role: String?) = SortDir.byName(sortDir)
         .let { userService.findAll(it, role) }
+        .map { UserResponse(it) }
         .let { ResponseEntity.ok(it) }
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: Long): ResponseEntity<User> = userService.findByIdOrNull(id)
+    fun findById(@PathVariable id: Long): ResponseEntity<UserResponse> = userService.findByIdOrNull(id)
+        ?.let { UserResponse(it) }
         ?.let { ResponseEntity.ok(it) }
         ?: ResponseEntity.notFound().build()
 
