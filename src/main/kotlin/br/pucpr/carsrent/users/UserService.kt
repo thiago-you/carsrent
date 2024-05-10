@@ -26,7 +26,15 @@ class UserService(
 
     fun findByIdOrNull(id: Long) = userRepository.findByIdOrNull(id)
 
-    fun deleteById(id: Long) = userRepository.deleteById(id)
+    fun deleteById(id: Long) {
+        findAll(SortDir.ASC, "Admin")
+            .takeIf { it.size == 1 }
+            ?.firstOrNull { it.id == id }?.let {
+                return
+            }
+
+        userRepository.deleteById(id)
+    }
 
     fun addRole(id: Long, roleName: String): Boolean {
         val user = userRepository.findByIdOrNull(id) ?: throw IllegalArgumentException("User $id not found!")

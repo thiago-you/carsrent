@@ -24,10 +24,4 @@ GET localhost:8080/api/users/1
 DELETE localhost:8080/api/users/1
 
 ### grant role to user
-PUT localhost:8080/api/users/1/roles/ADMIN
-Content-Type: application/json
-
-{
-  "id": 1,
-  "role": "Admin"
-}
+PUT localhost:8080/api/users/2/roles/ADMIN
