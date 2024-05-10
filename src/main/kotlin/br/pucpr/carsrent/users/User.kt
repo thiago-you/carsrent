@@ -1,6 +1,7 @@
 package br.pucpr.carsrent.users
 
 import br.pucpr.carsrent.roles.Role
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import org.jetbrains.annotations.NotNull
 
@@ -16,6 +17,7 @@ class User(
     var password: String = "",
     @NotNull
     var name: String = "",
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
         name = "UserRoles",
