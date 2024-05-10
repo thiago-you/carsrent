@@ -10,7 +10,7 @@ data class RoleRequest(
     val description: String?
 ) {
     fun toRole() = Role(
-        name = name!!,
+        name = name!!.uppercase(),
         description = description!!
     )
 }

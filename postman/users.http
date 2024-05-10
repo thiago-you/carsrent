@@ -11,6 +11,12 @@ Content-Type: application/json
 ### get all users
 GET localhost:8080/api/users
 
+### get all users order by desc
+GET localhost:8080/api/users?sortDir=desc
+
+### get all users order by desc and with role ADMIN
+GET localhost:8080/api/users?sortDir=desc&role=ADMIN
+
 ### get the first user
 GET localhost:8080/api/users/1
 
@@ -18,7 +24,7 @@ GET localhost:8080/api/users/1
 DELETE localhost:8080/api/users/1
 
 ### grant role to user
-POST localhost:8080/api/users/1/role/ADMIN
+PUT localhost:8080/api/users/1/roles/ADMIN
 Content-Type: application/json
 
 {

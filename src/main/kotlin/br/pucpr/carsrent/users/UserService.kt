@@ -12,9 +12,16 @@ class UserService(
 ) {
     fun save(user: User) = userRepository.save(user)
 
-    fun findAll(sortDir: SortDir): MutableList<User> = when (sortDir) {
-        SortDir.ASC -> userRepository.findAll(Sort.by("name").ascending())
-        SortDir.DESC -> userRepository.findAll(Sort.by("name").descending())
+    fun findAll(sortDir: SortDir, role: String?) = role?.let {
+        when (sortDir) {
+            SortDir.ASC -> userRepository.findByRole(role.uppercase()).sortedBy { it.name }
+            SortDir.DESC -> userRepository.findByRole(role.uppercase()).sortedByDescending { it.name }
+        }
+    } ?: run {
+        when (sortDir) {
+            SortDir.ASC -> userRepository.findAll(Sort.by("name").ascending())
+            SortDir.DESC -> userRepository.findAll(Sort.by("name").descending())
+        }
     }
 
     fun findByIdOrNull(id: Long) = userRepository.findByIdOrNull(id)

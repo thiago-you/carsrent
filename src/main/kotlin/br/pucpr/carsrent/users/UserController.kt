@@ -16,25 +16,24 @@ class UserController(
         .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
 
     @GetMapping
-    fun findAll(sortDir: String? = null) = SortDir.byName(sortDir)
-        .let { userService.findAll(it) }
+    fun findAll(@RequestParam sortDir: String? = null, @RequestParam role: String?) = SortDir.byName(sortDir)
+        .let { userService.findAll(it, role) }
         .let { ResponseEntity.ok(it) }
 
     @GetMapping("/{id}")
     fun findById(@PathVariable id: Long): ResponseEntity<User> = userService.findByIdOrNull(id)
-            ?.let { ResponseEntity.ok(it) }
-            ?: ResponseEntity.notFound().build()
+        ?.let { ResponseEntity.ok(it) }
+        ?: ResponseEntity.notFound().build()
 
     @DeleteMapping("/{id}")
-    fun deleteById(@PathVariable id: Long): ResponseEntity<Void> =
-        userService.deleteById(id)
-            .let { ResponseEntity.ok().build() }
+    fun deleteById(@PathVariable id: Long): ResponseEntity<Void> = userService.deleteById(id)
+        .let { ResponseEntity.ok().build() }
 
     @PutMapping("/{id}/roles/{role}")
     fun grant(
         @PathVariable id: Long,
         @PathVariable role: String
-    ): ResponseEntity<Void> =
-        if (userService.addRole(id, role)) ResponseEntity.ok().build()
-        else ResponseEntity.noContent().build()
+    ): ResponseEntity<Void> = userService.addRole(id, role).takeIf { it }
+        ?.let { ResponseEntity.ok().build() }
+        ?: ResponseEntity.noContent().build()
 }
