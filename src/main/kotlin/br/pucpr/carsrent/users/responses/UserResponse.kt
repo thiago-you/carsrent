@@ -1,4 +1,6 @@
-package br.pucpr.carsrent.users
+package br.pucpr.carsrent.users.responses
+
+import br.pucpr.carsrent.users.User
 
 data class UserResponse(
     val id: Long,

@@ -1,5 +1,6 @@
-package br.pucpr.carsrent.users
+package br.pucpr.carsrent.users.requests
 
+import br.pucpr.carsrent.users.User
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 

@@ -1,5 +1,9 @@
 package br.pucpr.carsrent.users
 
+import br.pucpr.carsrent.users.requests.LoginRequest
+import br.pucpr.carsrent.users.requests.UserRequest
+import br.pucpr.carsrent.users.responses.LoginResponse
+import br.pucpr.carsrent.users.responses.UserResponse
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -39,4 +43,10 @@ class UserController(
     ): ResponseEntity<Void> = userService.addRole(id, role).takeIf { it }
         ?.let { ResponseEntity.ok().build() }
         ?: ResponseEntity.noContent().build()
+
+    @PostMapping("/login")
+    fun login(@Valid @RequestBody loginRequest: LoginRequest): ResponseEntity<LoginResponse> =
+        userService.login(loginRequest.email!!, loginRequest.password!!)
+            ?.let { ResponseEntity.ok(it) }
+            ?: ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
 }

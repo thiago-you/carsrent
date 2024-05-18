@@ -1,6 +1,10 @@
 package br.pucpr.carsrent.users
 
 import br.pucpr.carsrent.roles.RoleRepository
+import br.pucpr.carsrent.security.Jwt
+import br.pucpr.carsrent.users.responses.LoginResponse
+import br.pucpr.carsrent.users.responses.UserResponse
+import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -8,7 +12,8 @@ import org.springframework.stereotype.Service
 @Service
 class UserService(
     val userRepository: UserRepository,
-    val roleRepository: RoleRepository
+    val roleRepository: RoleRepository,
+    val jwt: Jwt
 ) {
     fun save(user: User) = userRepository.save(user)
 
@@ -47,5 +52,26 @@ class UserService(
         userRepository.save(user)
 
         return true
+    }
+
+    fun login(email: String, password: String): LoginResponse? {
+        val user = userRepository.findByEmail(email).firstOrNull()
+
+        if (user == null) {
+            log.warn("User {} not found!", email)
+            return null
+        }
+        if (user.password != password) {
+            log.warn("Invalid password!")
+            return null
+        }
+
+        log.info("User {} ({}) logged in!", user.id, user.email)
+
+        return LoginResponse(token = jwt.createToken(user), user = UserResponse(user))
+    }
+
+    companion object {
+        private val log = LoggerFactory.getLogger(UserService::class.java)
     }
 }
