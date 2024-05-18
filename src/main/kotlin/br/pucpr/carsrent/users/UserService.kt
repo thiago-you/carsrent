@@ -27,7 +27,7 @@ class UserService(
     fun findByIdOrNull(id: Long) = userRepository.findByIdOrNull(id)
 
     fun deleteById(id: Long) {
-        findAll(SortDir.ASC, "Admin")
+        findAll(SortDir.ASC, "ADMIN")
             .takeIf { it.size == 1 }
             ?.firstOrNull { it.id == id }?.let {
                 return
