@@ -13,7 +13,7 @@ import java.util.*
 class Jwt {
 
     companion object {
-        const val SECRET = "mySecret"
+        const val SECRET = "37944be5effa1578cd5447e3b5a6362701a1af03"
         const val ISSUER = "AuthServer"
         const val USER_FIELD = "User"
         const val EXPIRE_HOURS = 2L
