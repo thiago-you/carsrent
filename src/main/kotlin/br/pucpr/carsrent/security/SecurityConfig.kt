@@ -23,7 +23,7 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector
 
 @Configuration
 @EnableMethodSecurity
-@SecurityScheme(name = "AuthServer", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
+@SecurityScheme(name = "WebToken", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
 class SecurityConfig(private val jwtTokenFilter: JwtTokenFilter) {
     @Bean
     fun mvc(introspector: HandlerMappingIntrospector) = MvcRequestMatcher.Builder(introspector)
