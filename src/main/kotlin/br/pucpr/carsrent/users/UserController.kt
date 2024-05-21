@@ -6,6 +6,7 @@ import br.pucpr.carsrent.users.responses.LoginResponse
 import br.pucpr.carsrent.users.responses.UserResponse
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jakarta.validation.Valid
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize

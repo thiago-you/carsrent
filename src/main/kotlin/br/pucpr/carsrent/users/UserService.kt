@@ -39,6 +39,8 @@ class UserService(
                 throw BadRequestException("Cannot delete the last admin user!")
             }
 
+        log.warn("User deleted! id={}", id)
+
         userRepository.deleteById(id)
     }
 
@@ -67,7 +69,7 @@ class UserService(
             return null
         }
 
-        log.info("User {} ({}) logged in!", user.id, user.email)
+        log.info("User logged in! id={} name={}", user.id, user.email)
 
         return LoginResponse(token = jwt.createToken(user), user = UserResponse(user))
     }
