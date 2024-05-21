@@ -20,9 +20,6 @@ GET localhost:8080/api/users?sortDir=desc&role=ADMIN
 ### get the first user
 GET localhost:8080/api/users/1
 
-### delete the first user
-DELETE localhost:8080/api/users/1
-
 ### grant role to user
 PUT localhost:8080/api/users/2/roles/ADMIN
 
@@ -34,3 +31,11 @@ Content-Type: application/json
   "email": "admin@authserver.com",
   "password": "admin"
 }
+> {%
+ client.global.set("token", response.body.token)
+ client.global.set("id", response.body.user.id)
+ %}
+
+### delete the first user
+DELETE localhost:8080/api/users/1
+Authorization: Bearer {{token}}

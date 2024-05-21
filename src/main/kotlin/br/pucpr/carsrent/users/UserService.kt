@@ -1,5 +1,6 @@
 package br.pucpr.carsrent.users
 
+import br.pucpr.carsrent.exceptions.BadRequestException
 import br.pucpr.carsrent.roles.RoleRepository
 import br.pucpr.carsrent.security.Jwt
 import br.pucpr.carsrent.users.responses.LoginResponse
@@ -32,10 +33,10 @@ class UserService(
     fun findByIdOrNull(id: Long) = userRepository.findByIdOrNull(id)
 
     fun deleteById(id: Long) {
-        findAll(SortDir.ASC, "ADMIN")
+        userRepository.findByRole("ADMIN")
             .takeIf { it.size == 1 }
             ?.firstOrNull { it.id == id }?.let {
-                return
+                throw BadRequestException("Cannot delete the last admin user!")
             }
 
         userRepository.deleteById(id)
