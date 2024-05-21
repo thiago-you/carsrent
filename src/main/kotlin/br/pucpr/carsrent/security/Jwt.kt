@@ -17,32 +17,28 @@ import java.time.ZonedDateTime
 import java.util.*
 
 @Component
-class Jwt {
+class Jwt(val properties: SecurityProperties) {
 
     companion object {
-        const val SECRET = "37944be5effa1578cd5447e3b5a6362701a1af03"
-        const val ISSUER = "AuthServer"
         const val USER_FIELD = "User"
-        const val EXPIRE_HOURS = 2L
-        const val ADMIN_EXPIRE_HOURS = 2L
 
         private val log = LoggerFactory.getLogger(Jwt::class.java)
     }
 
     fun createToken(user: User): String = UserToken(user).let {
         Jwts.builder()
-            .signWith(Keys.hmacShaKeyFor(SECRET.toByteArray()))
+            .signWith(Keys.hmacShaKeyFor(properties.secret.toByteArray()))
             .serializeToJsonWith(JacksonSerializer())
             .issuedAt(utcNow().toDate())
-            .expiration(utcNow().plusHours(if (it.isAdmin) ADMIN_EXPIRE_HOURS else EXPIRE_HOURS).toDate())
-            .issuer(ISSUER)
+            .expiration(utcNow().plusHours(if (it.isAdmin) properties.expireHoursAdmin else properties.expireHours).toDate())
+            .issuer(properties.issuer)
             .subject(it.id.toString())
             .claim(USER_FIELD, it)
             .compact()
     }
 
     fun extract(req: HttpServletRequest): Authentication? {
-        return try {
+        try {
             val token = req.getHeader(AUTHORIZATION)?.removePrefix("Bearer ")?.trim() ?: return null
 
             if (token.isBlank()) {
@@ -50,13 +46,13 @@ class Jwt {
             }
 
             val claims = Jwts.parser()
-                .verifyWith(Keys.hmacShaKeyFor(SECRET.toByteArray()))
+                .verifyWith(Keys.hmacShaKeyFor(properties.secret.toByteArray()))
                 .json(JacksonDeserializer(mapOf(USER_FIELD to UserToken::class.java)))
                 .build()
                 .parseSignedClaims(token)
                 .payload
 
-            if (claims.issuer != ISSUER) {
+            if (claims.issuer != properties.issuer) {
                 return null
             }
 
