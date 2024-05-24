@@ -6,7 +6,6 @@ import br.pucpr.carsrent.users.responses.LoginResponse
 import br.pucpr.carsrent.users.responses.UserResponse
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jakarta.validation.Valid
-import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -24,7 +23,7 @@ class UserController(
         .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
 
     @GetMapping
-    fun findAll(@RequestParam sortDir: String? = null, @RequestParam role: String?) = SortDir.byName(sortDir)
+    fun findAll(@RequestParam sortDir: String? = null, @RequestParam role: String?) = SortDir.findOrThrow(sortDir)
         .let { userService.findAll(it, role) }
         .map { UserResponse(it) }
         .let { ResponseEntity.ok(it) }
