@@ -1,6 +1,8 @@
 package br.pucpr.carsrent.users
 
 import br.pucpr.carsrent.exceptions.BadRequestException
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContainIgnoringCase
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
@@ -13,18 +15,18 @@ class SortDirTest {
             SortDir.findOrThrow("INVALID")
         }
 
-        assert(error.message!!.contains("invalid", ignoreCase = true))
+        error.message shouldContainIgnoringCase "invalid"
     }
 
     @ParameterizedTest
     @ValueSource(strings = ["asc", "ASC", "aSc"])
     fun `findOrThrow returns SortDir for valid ASC values ignoring case`(dir: String) {
-        assert(SortDir.findOrThrow(dir) == SortDir.ASC)
+        SortDir.findOrThrow(dir) shouldBe SortDir.ASC
     }
 
     @ParameterizedTest
     @ValueSource(strings = ["desc", "DESC", "dESC"])
     fun `findOrThrow returns SortDir for valid DESC values ignoring case`(dir: String) {
-        assert(SortDir.findOrThrow(dir) == SortDir.DESC)
+        SortDir.findOrThrow(dir) shouldBe SortDir.DESC
     }
 }
