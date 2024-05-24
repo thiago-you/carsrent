@@ -16,7 +16,15 @@ class UserService(
     val roleRepository: RoleRepository,
     val jwt: Jwt
 ) {
-    fun save(user: User) = userRepository.save(user)
+    fun insert(user: User): User {
+        if (userRepository.findByEmail(user.email) != null) {
+            throw BadRequestException("User with e-mail ${user.email} already exists!")
+        }
+
+        return userRepository.save(user).also {
+            log.info("User inserted! {}", it.id)
+        }
+    }
 
     fun findAll(sortDir: SortDir, role: String?) = role?.let {
         when (sortDir) {
@@ -58,7 +66,7 @@ class UserService(
     }
 
     fun login(email: String, password: String): LoginResponse? {
-        val user = userRepository.findByEmail(email).firstOrNull()
+        val user = userRepository.findByEmail(email)
 
         if (user == null) {
             log.warn("User {} not found!", email)

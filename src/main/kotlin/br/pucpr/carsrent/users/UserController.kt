@@ -18,7 +18,7 @@ class UserController(
 ) {
     @PostMapping
     fun insert(@Valid @RequestBody userRequest: UserRequest): ResponseEntity<UserResponse> = userRequest.toUser()
-        .let { userService.save(it) }
+        .let { userService.insert(it) }
         .let { UserResponse(it) }
         .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
 
