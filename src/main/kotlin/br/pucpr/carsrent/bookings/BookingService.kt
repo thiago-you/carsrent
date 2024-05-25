@@ -21,10 +21,12 @@ class BookingService(
         val vehicle = vehicleRepository.findByIdOrNull(booking.vehicle?.id!!)
             ?: throw BadRequestException("Vehicle not found!")
 
-        if (userRepository.findByIdOrNull(booking.user?.id!!) == null) {
-            throw BadRequestException("User not found!")
-        }
+        val user = userRepository.findByIdOrNull(booking.user?.id!!)
+            ?: throw BadRequestException("User not found!")
 
+        booking.status = "OPEN"
+        booking.user = user
+        booking.vehicle = vehicle
         booking.totalPrice = booking.days * vehicle.price
 
         return bookingRepository.save(booking).also {

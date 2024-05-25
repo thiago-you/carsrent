@@ -8,6 +8,7 @@ data class BookingResponse(
     val id: Long,
     val status: String,
     val days: Int,
+    val totalPrice: Double,
     val vehicle: VehicleResponse,
     val user: UserResponse,
 ) {
@@ -15,6 +16,7 @@ data class BookingResponse(
         id = booking.id!!,
         status = booking.status,
         days = booking.days,
+        totalPrice = booking.totalPrice,
         vehicle = VehicleResponse(booking.vehicle!!),
         user = UserResponse(booking.user!!)
     )

@@ -30,7 +30,7 @@ Content-Type: application/json
 {
   "days": 2,
   "userId": 1,
-  "vehicleId": 1
+  "vehicleId": 2
 }
 
 ### delete the first bookings
