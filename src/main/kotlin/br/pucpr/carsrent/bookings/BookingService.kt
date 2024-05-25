@@ -32,7 +32,7 @@ class BookingService(
         }
     }
 
-    fun findAll() = bookingRepository.findAll()
+    fun findAll(): MutableList<Booking> = bookingRepository.findAll()
 
     fun findByIdOrNull(id: Long) = bookingRepository.findByIdOrNull(id)
 

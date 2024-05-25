@@ -1,5 +1,7 @@
 package br.pucpr.carsrent.roles
 
+import br.pucpr.carsrent.roles.requests.RoleRequest
+import br.pucpr.carsrent.roles.responses.RoleResponse
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

@@ -1,4 +1,6 @@
-package br.pucpr.carsrent.roles
+package br.pucpr.carsrent.roles.responses
+
+import br.pucpr.carsrent.roles.Role
 
 data class RoleResponse(
     val name: String,

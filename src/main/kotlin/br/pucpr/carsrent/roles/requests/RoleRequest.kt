@@ -1,5 +1,6 @@
-package br.pucpr.carsrent.roles
+package br.pucpr.carsrent.roles.requests
 
+import br.pucpr.carsrent.roles.Role
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
 
