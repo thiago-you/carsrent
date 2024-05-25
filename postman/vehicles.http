@@ -1,0 +1,38 @@
+### login user
+POST localhost:8080/api/users/login
+Content-Type: application/json
+
+{
+  "email": "admin@authserver.com",
+  "password": "admin"
+}
+> {%
+    client.global.set("token", response.body.token)
+    client.global.set("id", response.body.user.id)
+%}
+
+### get all vehicles
+GET localhost:8080/api/vehicles
+
+### get all vehicles by category
+GET localhost:8080/api/vehicles/category/Sedan
+
+### get the first vehicle
+GET localhost:8080/api/vehicles/1
+
+### create a vehicle
+POST localhost:8080/api/vehicles
+Content-Type: application/json
+
+{
+  "brand": "Volkswagen",
+  "model": "Jetta",
+  "color": "Silver",
+  "modelYear": 2012,
+  "price": 400.70,
+  "category": "Sedan"
+}
+
+### delete the first vechile
+DELETE localhost:8080/api/vehicles/1
+Authorization: Bearer {{token}}

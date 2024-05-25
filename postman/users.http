@@ -1,12 +1,15 @@
-### create a user
-POST localhost:8080/api/users
+### login user
+POST localhost:8080/api/users/login
 Content-Type: application/json
 
 {
-  "name": "Thiago You",
-  "email": "thiago.you@pucpr.com",
-  "password": "password"
+  "email": "admin@authserver.com",
+  "password": "admin"
 }
+> {%
+    client.global.set("token", response.body.token)
+    client.global.set("id", response.body.user.id)
+%}
 
 ### get all users
 GET localhost:8080/api/users
@@ -20,21 +23,18 @@ GET localhost:8080/api/users?sortDir=desc&role=ADMIN
 ### get the first user
 GET localhost:8080/api/users/1
 
-### grant role to user
-PUT localhost:8080/api/users/2/roles/ADMIN
-
-### login user
-POST localhost:8080/api/users/login
+### create a user
+POST localhost:8080/api/users
 Content-Type: application/json
 
 {
-  "email": "admin@authserver.com",
-  "password": "admin"
+  "name": "Thiago You",
+  "email": "thiago.you@pucpr.com",
+  "password": "password"
 }
-> {%
- client.global.set("token", response.body.token)
- client.global.set("id", response.body.user.id)
- %}
+
+### grant role to user
+PUT localhost:8080/api/users/2/roles/ADMIN
 
 ### delete the first user
 DELETE localhost:8080/api/users/1
