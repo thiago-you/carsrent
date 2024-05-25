@@ -4,6 +4,7 @@ import br.pucpr.carsrent.vehicles.requests.VehicleRequest
 import br.pucpr.carsrent.vehicles.responses.VehicleResponse
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -17,7 +18,7 @@ class VehicleController(
     fun insert(@Valid @RequestBody vehicleRequest: VehicleRequest): ResponseEntity<VehicleResponse> = vehicleRequest.toVehicle()
         .let { vehicleService.insert(it) }
         .let { VehicleResponse(it) }
-        .let { ResponseEntity.ok(it) }
+        .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
 
     @GetMapping
     fun findAll() = vehicleService.findAll()
