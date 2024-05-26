@@ -63,7 +63,7 @@ class BookingService(
             ?: throw BadRequestException("Booking not found!")
 
         if (booking.status != BookingStatus.OPEN.toString()) {
-            throw BadRequestException("Booking not available for close!")
+            throw BadRequestException("Booking not available!")
         }
 
         if (bookingStatus == BookingStatus.CANCELED) {
@@ -75,7 +75,7 @@ class BookingService(
         booking.status = bookingStatus.toString()
 
         bookingRepository.save(booking).also {
-            log.info("Booking closed! {}", it.id)
+            log.info("Booking ${bookingStatus.toString().lowercase()}! {}", it.id)
         }
     }
 
@@ -91,7 +91,7 @@ class BookingService(
 
     fun findByUserId(userId: Long) = bookingRepository.findByUserId(userId)
 
-    fun findByStatus(status: String) = bookingRepository.findByStatus(status)
+    fun findByStatus(status: BookingStatus) = bookingRepository.findByStatus(status.toString())
 
     companion object {
         private val log = LoggerFactory.getLogger(BookingService::class.java)

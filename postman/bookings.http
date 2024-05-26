@@ -20,6 +20,15 @@ GET localhost:8080/api/bookings/vehicle/1
 ### get all bookings by user
 GET localhost:8080/api/bookings/user/1
 
+### get all bookings by status open
+GET localhost:8080/api/bookings/status/OPEN
+
+### get all bookings by status confirmed
+GET localhost:8080/api/bookings/status/CONFIRMED
+
+### get all bookings by status canceled
+GET localhost:8080/api/bookings/status/CANCELED
+
 ### get the first booking
 GET localhost:8080/api/bookings/1
 
@@ -40,7 +49,7 @@ PUT localhost:8080/api/bookings/1/vehicle/2
 PUT localhost:8080/api/bookings/1/cancel
 Authorization: Bearer {{token}}
 
-### close booking
+### confirm booking
 PUT localhost:8080/api/bookings/1/confirm
 Authorization: Bearer {{token}}
 

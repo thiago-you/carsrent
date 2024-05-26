@@ -46,8 +46,9 @@ class BookingController(
         .map { BookingResponse(it) }
         .let { ResponseEntity.ok(it) }
 
-    @GetMapping("/user/{status}")
-    fun findByStatus(@PathVariable status: String) = bookingService.findByStatus(status)
+    @GetMapping("/status/{status}")
+    fun findByStatus(@PathVariable status: String) = BookingStatus.findOrThrow(status)
+        .let { bookingService.findByStatus(it) }
         .map { BookingResponse(it) }
         .let { ResponseEntity.ok(it) }
 
