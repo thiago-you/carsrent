@@ -1,3 +1,6 @@
+### get all roles
+GET localhost:8080/api/roles
+
 ### create a role
 POST localhost:8080/api/roles
 Content-Type: application/json
@@ -6,6 +9,3 @@ Content-Type: application/json
   "name": "ADMIN",
   "description": "API Admin"
 }
-
-### get all roles
-GET localhost:8080/api/roles

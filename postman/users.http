@@ -25,14 +25,14 @@ POST localhost:8080/api/users
 Content-Type: application/json
 
 {
-  "name": "Thiago You",
-  "email": "thiago.you@pucpr.com",
-  "password": "password"
+  "name": "User",
+  "email": "user@user.com",
+  "password": "user"
 }
 
 ### grant role to user
-PUT localhost:8080/api/users/2/roles/ADMIN
+PUT localhost:8080/api/users/2/roles/USER
 
 ### delete the first user
-DELETE localhost:8080/api/users/1
+DELETE localhost:8080/api/users/2
 Authorization: Bearer {{token}}

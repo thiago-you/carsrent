@@ -21,17 +21,23 @@ import java.util.*
 class Jwt(val properties: SecurityProperties) {
 
     companion object {
-        const val USER_FIELD = "User"
+        const val USER_FIELD = "user"
 
         private val log = LoggerFactory.getLogger(Jwt::class.java)
 
         fun recoverUserId(): Long? {
             val authentication = SecurityContextHolder.getContext().authentication
 
-            return if (authentication.principal is UserToken) {
-                (authentication.principal as UserToken).id
-            } else {
-                null
+            return when (authentication.principal) {
+                is Long -> {
+                    authentication.principal as Long
+                }
+                is UserToken -> {
+                    (authentication.principal as UserToken).id
+                }
+                else -> {
+                    null
+                }
             }
         }
     }
@@ -67,7 +73,7 @@ class Jwt(val properties: SecurityProperties) {
                 return null
             }
 
-            return claims.get("user", UserToken::class.java).toAuthentication()
+            return claims.get(USER_FIELD, UserToken::class.java).toAuthentication()
         } catch (e: Exception) {
             log.debug("Token rejected", e)
             return null
