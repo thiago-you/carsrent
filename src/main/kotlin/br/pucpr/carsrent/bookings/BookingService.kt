@@ -56,6 +56,36 @@ class BookingService(
         }
     }
 
+    fun cancelBooking(bookingId: Long) {
+        val booking = bookingRepository.findByIdOrNull(bookingId)
+            ?: throw BadRequestException("Booking not found!")
+
+        if (booking.status != "OPEN") {
+            throw BadRequestException("Booking not available for cancel!")
+        }
+
+        booking.status = "CANCELED"
+
+        bookingRepository.save(booking).also {
+            log.info("Booking canceled! {}", it.id)
+        }
+    }
+
+    fun closeBooking(bookingId: Long) {
+        val booking = bookingRepository.findByIdOrNull(bookingId)
+            ?: throw BadRequestException("Booking not found!")
+
+        if (booking.status != "OPEN") {
+            throw BadRequestException("Booking not available for close!")
+        }
+
+        booking.status = "CLOSED"
+
+        bookingRepository.save(booking).also {
+            log.info("Booking closed! {}", it.id)
+        }
+    }
+
     fun findAll(): MutableList<Booking> = bookingRepository.findAll()
 
     fun findByIdOrNull(id: Long) = bookingRepository.findByIdOrNull(id)
