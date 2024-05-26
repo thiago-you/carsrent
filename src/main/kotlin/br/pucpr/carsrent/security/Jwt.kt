@@ -25,7 +25,7 @@ class Jwt(val properties: SecurityProperties) {
 
         private val log = LoggerFactory.getLogger(Jwt::class.java)
 
-        fun recoverUserId(): Long? {
+        fun currentUserId(): Long? {
             val authentication = SecurityContextHolder.getContext().authentication
 
             return when (authentication.principal) {

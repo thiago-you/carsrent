@@ -1,5 +1,6 @@
 package br.pucpr.carsrent.vehicles
 
+import br.pucpr.carsrent.bookings.BookingRepository
 import br.pucpr.carsrent.exceptions.BadRequestException
 import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
@@ -7,7 +8,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class VehicleService(
-    val vehicleRepository: VehicleRepository
+    val vehicleRepository: VehicleRepository,
+    val bookingRepository: BookingRepository
 ) {
     fun insert(vehicle: Vehicle): Vehicle {
         if (vehicleRepository.findByFilter(vehicle.brand, vehicle.model, vehicle.modelYear, vehicle.price) != null) {
@@ -24,6 +26,10 @@ class VehicleService(
     fun findByIdOrNull(id: Long) = vehicleRepository.findByIdOrNull(id)
 
     fun deleteById(id: Long) {
+        bookingRepository.findByVehicleId(id)
+            .takeIf { it.isNotEmpty() }
+            ?.also { throw BadRequestException("Vehicle has bookings!") }
+
         vehicleRepository.deleteById(id)
     }
 

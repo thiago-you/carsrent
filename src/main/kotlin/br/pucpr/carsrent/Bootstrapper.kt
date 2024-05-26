@@ -2,6 +2,7 @@ package br.pucpr.carsrent
 
 import br.pucpr.carsrent.bookings.Booking
 import br.pucpr.carsrent.bookings.BookingRepository
+import br.pucpr.carsrent.bookings.BookingStatus
 import br.pucpr.carsrent.roles.Role
 import br.pucpr.carsrent.roles.RoleRepository
 import br.pucpr.carsrent.users.User
@@ -83,7 +84,7 @@ class Bootstrapper(
             val booking = Booking(
                 user = user,
                 vehicle = vehicle,
-                status = "OPEN",
+                status = BookingStatus.OPEN.toString(),
                 days = 3,
                 totalPrice = 3 * vehicle.price
             )

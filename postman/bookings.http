@@ -41,7 +41,7 @@ PUT localhost:8080/api/bookings/1/cancel
 Authorization: Bearer {{token}}
 
 ### close booking
-PUT localhost:8080/api/bookings/1/close
+PUT localhost:8080/api/bookings/1/confirm
 Authorization: Bearer {{token}}
 
 ### delete the first booking

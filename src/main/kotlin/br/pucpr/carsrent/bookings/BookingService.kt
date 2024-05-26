@@ -15,9 +15,9 @@ class BookingService(
     val userRepository: UserRepository
 ) {
     fun insert(booking: Booking): Booking {
-        if (bookingRepository.findByVehicleId(booking.vehicle?.id!!).any { it.status == "OPEN" }) {
-            throw BadRequestException("Vehicle already booked!")
-        }
+        bookingRepository.findByVehicleId(booking.vehicle?.id!!)
+            .takeIf { list -> list.any { it.status == BookingStatus.OPEN.toString() } }
+            ?.also { throw BadRequestException("Vehicle already booked!") }
 
         val vehicle = vehicleRepository.findByIdOrNull(booking.vehicle?.id!!)
             ?: throw BadRequestException("Vehicle not found!")
@@ -25,7 +25,7 @@ class BookingService(
         val user = userRepository.findByIdOrNull(booking.user?.id!!)
             ?: throw BadRequestException("User not found!")
 
-        booking.status = "OPEN"
+        booking.status = BookingStatus.OPEN.toString()
         booking.user = user
         booking.vehicle = vehicle
         booking.totalPrice = booking.days * vehicle.price
@@ -45,7 +45,8 @@ class BookingService(
         if (booking.vehicle!!.id == vehicleId) {
             throw BadRequestException("Vehicle already added to this booking!")
         }
-        if (booking.status != "OPEN") {
+
+        if (booking.status != BookingStatus.OPEN.toString()) {
             throw BadRequestException("Booking not available for update!")
         }
 
@@ -57,36 +58,21 @@ class BookingService(
         }
     }
 
-    fun cancelBooking(bookingId: Long) {
-        val currentUserId = Jwt.recoverUserId()
-
+    fun updateBookingStatus(bookingId: Long, bookingStatus: BookingStatus) {
         val booking = bookingRepository.findByIdOrNull(bookingId)
             ?: throw BadRequestException("Booking not found!")
 
-        if (booking.user?.id != currentUserId) {
-            throw BadRequestException("User not allowed to cancel this booking!")
-        }
-
-        if (booking.status != "OPEN") {
-            throw BadRequestException("Booking not available for cancel!")
-        }
-
-        booking.status = "CANCELED"
-
-        bookingRepository.save(booking).also {
-            log.info("Booking canceled! {}", it.id)
-        }
-    }
-
-    fun closeBooking(bookingId: Long) {
-        val booking = bookingRepository.findByIdOrNull(bookingId)
-            ?: throw BadRequestException("Booking not found!")
-
-        if (booking.status != "OPEN") {
+        if (booking.status != BookingStatus.OPEN.toString()) {
             throw BadRequestException("Booking not available for close!")
         }
 
-        booking.status = "CLOSED"
+        if (bookingStatus == BookingStatus.CANCELED) {
+            if (booking.user?.id != Jwt.currentUserId()) {
+                throw BadRequestException("User not allowed to cancel this booking!")
+            }
+        }
+
+        booking.status = bookingStatus.toString()
 
         bookingRepository.save(booking).also {
             log.info("Booking closed! {}", it.id)

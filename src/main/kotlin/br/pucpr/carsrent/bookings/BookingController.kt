@@ -58,12 +58,14 @@ class BookingController(
 
     @PutMapping("/{bookingId}/cancel")
     @SecurityRequirement(name="WebToken")
-    fun cancelBooking(@PathVariable bookingId: Long): ResponseEntity<Void> = bookingService.cancelBooking(bookingId)
+    fun cancelBooking(@PathVariable bookingId: Long): ResponseEntity<Void> = bookingService
+        .updateBookingStatus(bookingId, BookingStatus.CANCELED)
         .let { ResponseEntity.ok().build() }
 
-    @PutMapping("/{bookingId}/close")
+    @PutMapping("/{bookingId}/confirm")
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name="WebToken")
-    fun closeBooking(@PathVariable bookingId: Long): ResponseEntity<Void> = bookingService.closeBooking(bookingId)
+    fun confirmBooking(@PathVariable bookingId: Long): ResponseEntity<Void> = bookingService
+        .updateBookingStatus(bookingId, BookingStatus.CONFIRMED)
         .let { ResponseEntity.ok().build() }
 }
