@@ -20,17 +20,21 @@ class Bootstrapper(
     val bookingRepository: BookingRepository
 ): ApplicationListener<ContextRefreshedEvent> {
     override fun onApplicationEvent(event: ContextRefreshedEvent) {
-        val adminRole = setupAdminRole()
+        val adminRole = setupRoles()
         val adminUser = setupAdminUser(adminRole)
         val vehicle = setupVehicle()
 
         setupBooking(adminUser, vehicle)
     }
 
-    private fun setupAdminRole(): Role {
-        return roleRepository.findByName("ADMIN") ?: roleRepository
+    private fun setupRoles(): Role {
+        val adminUser = roleRepository.findByName("ADMIN") ?: roleRepository
             .save(Role(name = "ADMIN", description = "System Administrator"))
-            .also { roleRepository.save(Role(name = "USER", description = "Premium User")) }
+
+        roleRepository.findByName("USER") ?: roleRepository
+            .save(Role(name = "USER", description = "System User"))
+
+        return adminUser
     }
 
     private fun setupAdminUser(adminRole: Role): User {
