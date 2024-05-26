@@ -1,7 +1,6 @@
 package br.pucpr.carsrent.bookings
 
 import br.pucpr.carsrent.exceptions.BadRequestException
-import br.pucpr.carsrent.users.SortDir
 
 enum class BookingStatus {
     OPEN, CONFIRMED, CANCELED;

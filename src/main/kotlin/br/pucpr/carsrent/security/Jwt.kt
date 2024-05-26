@@ -11,7 +11,6 @@ import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.authority.SimpleGrantedAuthority
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
@@ -24,22 +23,6 @@ class Jwt(val properties: SecurityProperties) {
         const val USER_FIELD = "user"
 
         private val log = LoggerFactory.getLogger(Jwt::class.java)
-
-        fun currentUserId(): Long? {
-            val authentication = SecurityContextHolder.getContext().authentication
-
-            return when (authentication.principal) {
-                is Long -> {
-                    authentication.principal as Long
-                }
-                is UserToken -> {
-                    (authentication.principal as UserToken).id
-                }
-                else -> {
-                    null
-                }
-            }
-        }
     }
 
     fun createToken(user: User): String = UserToken(user).let {

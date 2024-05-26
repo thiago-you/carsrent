@@ -1,9 +1,9 @@
 package br.pucpr.carsrent.bookings
 
-import br.pucpr.carsrent.security.Jwt
+import br.pucpr.carsrent.exceptions.BadRequestException
+import br.pucpr.carsrent.security.AuthUser
 import br.pucpr.carsrent.users.UserRepository
 import br.pucpr.carsrent.vehicles.VehicleRepository
-import org.apache.coyote.BadRequestException
 import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -12,7 +12,8 @@ import org.springframework.stereotype.Service
 class BookingService(
     val bookingRepository: BookingRepository,
     val vehicleRepository: VehicleRepository,
-    val userRepository: UserRepository
+    val userRepository: UserRepository,
+    val authUser: AuthUser
 ) {
     fun insert(booking: Booking): Booking {
         bookingRepository.findByVehicleId(booking.vehicle?.id!!)
@@ -67,7 +68,7 @@ class BookingService(
         }
 
         if (bookingStatus == BookingStatus.CANCELED) {
-            if (booking.user?.id != Jwt.currentUserId()) {
+            if (booking.user?.id != authUser.getId()) {
                 throw BadRequestException("User not allowed to cancel this booking!")
             }
         }
