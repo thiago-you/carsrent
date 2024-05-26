@@ -63,13 +63,13 @@ class SecurityConfig(private val jwtTokenFilter: JwtTokenFilter) {
         mvc: MvcRequestMatcher.Builder
     ) {
         requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET)).permitAll()
+        requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.DELETE)).permitAll()
+        requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.PUT)).permitAll()
         requestMatchers(mvc.pattern(HttpMethod.POST, "/users")).permitAll()
         requestMatchers(mvc.pattern(HttpMethod.POST, "/users/login")).permitAll()
         requestMatchers(mvc.pattern(HttpMethod.POST, "/roles")).permitAll()
         requestMatchers(mvc.pattern(HttpMethod.POST, "/vehicles")).permitAll()
         requestMatchers(mvc.pattern(HttpMethod.POST, "/bookings")).permitAll()
-        requestMatchers(mvc.pattern(HttpMethod.PUT, "/users/**")).permitAll()
-        requestMatchers(mvc.pattern(HttpMethod.PUT, "/bookings/**")).permitAll()
         requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
         anyRequest().authenticated()
     }

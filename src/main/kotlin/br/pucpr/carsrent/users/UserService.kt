@@ -1,5 +1,6 @@
 package br.pucpr.carsrent.users
 
+import br.pucpr.carsrent.bookings.BookingRepository
 import br.pucpr.carsrent.exceptions.BadRequestException
 import br.pucpr.carsrent.roles.RoleRepository
 import br.pucpr.carsrent.security.Jwt
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service
 class UserService(
     val userRepository: UserRepository,
     val roleRepository: RoleRepository,
+    val bookingRepository: BookingRepository,
     val jwt: Jwt
 ) {
     fun insert(user: User): User {
@@ -46,6 +48,10 @@ class UserService(
             ?.firstOrNull { it.id == id }?.let {
                 throw BadRequestException("Cannot delete the last admin user!")
             }
+
+        bookingRepository.findByUserId(id)
+            .takeIf { it.isNotEmpty() }
+            ?.let { throw BadRequestException("User has bookings!") }
 
         log.warn("User deleted! id={}", id)
 
