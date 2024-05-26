@@ -1,5 +1,6 @@
 package br.pucpr.carsrent.users
 
+import br.pucpr.carsrent.bookings.BookingRepository
 import br.pucpr.carsrent.exceptions.BadRequestException
 import br.pucpr.carsrent.roles.RoleRepository
 import br.pucpr.carsrent.security.Jwt
@@ -18,8 +19,9 @@ class UserServiceTest {
     private val jwt = mockk<Jwt>()
     private val userRepository = mockk<UserRepository>()
     private val roleRepository = mockk<RoleRepository>()
+    private val bookingRepository = mockk<BookingRepository>()
 
-    private val service = UserService(userRepository, roleRepository, jwt)
+    private val service = UserService(userRepository, roleRepository, bookingRepository, jwt)
 
     @BeforeEach
     fun setup() = clearAllMocks()
