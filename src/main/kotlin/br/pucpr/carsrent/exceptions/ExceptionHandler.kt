@@ -8,10 +8,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 
 @ControllerAdvice
 class ExceptionHandler {
-
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handle(ex: MethodArgumentNotValidException) = ex.bindingResult.allErrors
         .joinToString("\n") { "'${(it as FieldError).field}': ${it.defaultMessage}" }
         .let { ResponseEntity.badRequest().body(it) }
-
 }
