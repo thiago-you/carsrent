@@ -51,17 +51,17 @@ class BookingController(
         .map { BookingResponse(it) }
         .let { ResponseEntity.ok(it) }
 
-    @GetMapping("/{bookingId}/vehicle/{vehicleId}")
+    @PutMapping("/{bookingId}/vehicle/{vehicleId}")
     fun updateBookingVehicle(@PathVariable bookingId: Long, @PathVariable vehicleId: Long) = bookingService.updateVehicle(bookingId, vehicleId)
         ?.let { BookingResponse(it) }
         ?.let { ResponseEntity.ok(it) }
 
-    @GetMapping("/{bookingId}/cancel")
+    @PutMapping("/{bookingId}/cancel")
     @SecurityRequirement(name="WebToken")
     fun cancelBooking(@PathVariable bookingId: Long): ResponseEntity<Void> = bookingService.cancelBooking(bookingId)
         .let { ResponseEntity.ok().build() }
 
-    @GetMapping("/{bookingId}/close")
+    @PutMapping("/{bookingId}/close")
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name="WebToken")
     fun closeBooking(@PathVariable bookingId: Long): ResponseEntity<Void> = bookingService.closeBooking(bookingId)

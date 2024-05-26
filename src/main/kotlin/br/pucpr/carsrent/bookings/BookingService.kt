@@ -1,5 +1,6 @@
 package br.pucpr.carsrent.bookings
 
+import br.pucpr.carsrent.security.Jwt
 import br.pucpr.carsrent.users.UserRepository
 import br.pucpr.carsrent.vehicles.VehicleRepository
 import org.apache.coyote.BadRequestException
@@ -57,8 +58,14 @@ class BookingService(
     }
 
     fun cancelBooking(bookingId: Long) {
+        val currentUserId = Jwt.recoverUserId()
+
         val booking = bookingRepository.findByIdOrNull(bookingId)
             ?: throw BadRequestException("Booking not found!")
+
+        if (booking.user?.id != currentUserId) {
+            throw BadRequestException("User not allowed to cancel this booking!")
+        }
 
         if (booking.status != "OPEN") {
             throw BadRequestException("Booking not available for cancel!")
@@ -86,7 +93,7 @@ class BookingService(
         }
     }
 
-    fun findAll(): MutableList<Booking> = bookingRepository.findAll()
+    fun findAll(): List<Booking> = bookingRepository.findAll()
 
     fun findByIdOrNull(id: Long) = bookingRepository.findByIdOrNull(id)
 

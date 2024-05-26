@@ -11,9 +11,6 @@ Content-Type: application/json
     client.global.set("id", response.body.user.id)
 %}
 
-### get all users
-GET localhost:8080/api/users
-
 ### get all users order by desc
 GET localhost:8080/api/users?sortDir=desc
 

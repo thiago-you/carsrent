@@ -42,3 +42,4 @@ GET localhost:8080/api/bookings/1/vehicle/2
 
 ### cancel booking
 GET localhost:8080/api/bookings/1/cancel
+Authorization: Bearer {{token}}
