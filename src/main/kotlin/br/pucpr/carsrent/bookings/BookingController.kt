@@ -45,4 +45,14 @@ class BookingController(
     fun findByUserId(@PathVariable userId: Long) = bookingService.findByUserId(userId)
         .map { BookingResponse(it) }
         .let { ResponseEntity.ok(it) }
+
+    @GetMapping("/user/{status}")
+    fun findByStatus(@PathVariable status: String) = bookingService.findByStatus(status)
+        .map { BookingResponse(it) }
+        .let { ResponseEntity.ok(it) }
+
+    @GetMapping("/{bookingId}/vehicle/{vehicleId}")
+    fun updateBookingVehicle(@PathVariable bookingId: Long, @PathVariable vehicleId: Long) = bookingService.updateVehicle(bookingId, vehicleId)
+        ?.let { BookingResponse(it) }
+        ?.let { ResponseEntity.ok(it) }
 }

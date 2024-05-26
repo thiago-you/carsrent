@@ -38,7 +38,7 @@ class Bootstrapper(
 
         if (usersList.isEmpty()) {
             val admin = User(
-                name = "Auth Server Administrator",
+                name = "Administrator",
                 email = "admin@admin.com",
                 password = "admin"
             )

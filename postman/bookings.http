@@ -3,7 +3,7 @@ POST localhost:8080/api/users/login
 Content-Type: application/json
 
 {
-  "email": "admin@authserver.com",
+  "email": "admin@admin.com",
   "password": "admin"
 }
 > {%
@@ -20,7 +20,7 @@ GET localhost:8080/api/bookings/vehicle/1
 ### get all bookings by user
 GET localhost:8080/api/bookings/user/1
 
-### get the first bookings
+### get the first booking
 GET localhost:8080/api/bookings/1
 
 ### create a booking
@@ -33,6 +33,9 @@ Content-Type: application/json
   "vehicleId": 2
 }
 
-### delete the first bookings
+### delete the first booking
 DELETE localhost:8080/api/bookings/1
 Authorization: Bearer {{token}}
+
+### update the vehicle on booking
+GET localhost:8080/api/bookings/1/vehicle/2

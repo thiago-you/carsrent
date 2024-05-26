@@ -34,6 +34,28 @@ class BookingService(
         }
     }
 
+    fun updateVehicle(bookingId: Long, vehicleId: Long): Booking? {
+        val booking = bookingRepository.findByIdOrNull(bookingId)
+            ?: throw BadRequestException("Booking not found!")
+
+        val vehicle = vehicleRepository.findByIdOrNull(vehicleId)
+            ?: throw BadRequestException("Vehicle not found!")
+
+        if (booking.vehicle!!.id == vehicleId) {
+            throw BadRequestException("Vehicle already added to this booking!")
+        }
+        if (booking.status != "OPEN") {
+            throw BadRequestException("Booking not available for update!")
+        }
+
+        booking.vehicle = vehicle
+        booking.totalPrice = booking.days * vehicle.price
+
+        return bookingRepository.save(booking).also {
+            log.info("Booking updated! {}", it.id)
+        }
+    }
+
     fun findAll(): MutableList<Booking> = bookingRepository.findAll()
 
     fun findByIdOrNull(id: Long) = bookingRepository.findByIdOrNull(id)
