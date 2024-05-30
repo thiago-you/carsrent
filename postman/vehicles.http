@@ -15,7 +15,7 @@ Content-Type: application/json
 GET localhost:8080/api/vehicles
 
 ### get all vehicles by category
-GET localhost:8080/api/vehicles/category/Sedan
+GET localhost:8080/api/vehicles/category/Suv
 
 ### get the first vehicle
 GET localhost:8080/api/vehicles/1
@@ -28,11 +28,11 @@ Content-Type: application/json
   "brand": "Volkswagen",
   "model": "Jetta",
   "color": "Silver",
-  "modelYear": 2012,
+  "modelYear": 2013,
   "price": 400.70,
   "category": "Sedan"
 }
 
 ### delete the first vechile
-DELETE localhost:8080/api/vehicles/1
+DELETE localhost:8080/api/vehicles/3
 Authorization: Bearer {{token}}
