@@ -2,7 +2,7 @@ package br.pucpr.carsrent.users
 
 import br.pucpr.carsrent.roles.Role
 
-fun _user(id: Long? = null, name: String = "name", roles: List<String> = emptyList()) = User(
+fun _user(id: Long? = null, name: String = "name", roles: List<String> = emptyList()) = Users(
     id = id,
     name = name,
     email = "$name@email.com",

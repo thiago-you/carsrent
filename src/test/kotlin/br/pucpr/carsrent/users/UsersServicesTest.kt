@@ -15,13 +15,13 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
-class UserServiceTest {
+class UsersServicesTest {
     private val jwt = mockk<Jwt>()
-    private val userRepository = mockk<UserRepository>()
+    private val userRepository = mockk<UserRepositorys>()
     private val roleRepository = mockk<RoleRepository>()
     private val bookingRepository = mockk<BookingRepository>()
 
-    private val service = UserService(userRepository, roleRepository, bookingRepository, jwt)
+    private val service = UserServices(userRepository, roleRepository, bookingRepository, jwt)
 
     @BeforeEach
     fun setup() = clearAllMocks()

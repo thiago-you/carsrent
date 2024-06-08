@@ -1,6 +1,6 @@
 package br.pucpr.carsrent.users.requests
 
-import br.pucpr.carsrent.users.User
+import br.pucpr.carsrent.users.Users
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 
@@ -11,7 +11,7 @@ data class UserRequest(
     val password: String?,
     val name: String?
 ) {
-    fun toUser() = User(
+    fun toUser() = Users(
         email = email!!,
         password = password!!,
         name = name ?: ""

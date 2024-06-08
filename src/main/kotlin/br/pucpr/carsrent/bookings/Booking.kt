@@ -1,6 +1,6 @@
 package br.pucpr.carsrent.bookings
 
-import br.pucpr.carsrent.users.User
+import br.pucpr.carsrent.users.Users
 import br.pucpr.carsrent.vehicles.Vehicle
 import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
@@ -32,5 +32,5 @@ class Booking(
         joinColumns = [JoinColumn(name = "idBooking")],
         inverseJoinColumns = [JoinColumn(name = "idUser")]
     )
-    var user: User? = null,
+    var user: Users? = null,
 )

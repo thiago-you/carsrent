@@ -1,6 +1,6 @@
 package br.pucpr.carsrent.security
 
-import br.pucpr.carsrent.users.User
+import br.pucpr.carsrent.users.Users
 import com.fasterxml.jackson.annotation.JsonIgnore
 
 data class UserToken(
@@ -10,7 +10,7 @@ data class UserToken(
 ) {
     constructor() : this(0, "", emptySet())
 
-    constructor(user: User) : this(
+    constructor(user: Users) : this(
         id = user.id!!,
         name = user.name,
         roles = user.roles.map { it.name }.toSortedSet()

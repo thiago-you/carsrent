@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/users")
-class UserController(
-    val userService: UserService
+class UserControllers(
+    val userService: UserServices
 ) {
     @PostMapping
     fun insert(@Valid @RequestBody userRequest: UserRequest): ResponseEntity<UserResponse> = userRequest.toUser()
@@ -23,7 +23,7 @@ class UserController(
         .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
 
     @GetMapping
-    fun findAll(@RequestParam sortDir: String? = null, @RequestParam role: String? = null) = SortDir.findOrThrow(sortDir)
+    fun findAll(@RequestParam sortDir: String? = null, @RequestParam role: String? = null) = SortDirectory.findOrThrow(sortDir)
         .let { userService.findAll(it, role) }
         .map { UserResponse(it) }
         .let { ResponseEntity.ok(it) }

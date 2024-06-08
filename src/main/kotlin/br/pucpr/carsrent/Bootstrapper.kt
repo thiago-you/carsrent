@@ -5,8 +5,8 @@ import br.pucpr.carsrent.bookings.BookingRepository
 import br.pucpr.carsrent.bookings.BookingStatus
 import br.pucpr.carsrent.roles.Role
 import br.pucpr.carsrent.roles.RoleRepository
-import br.pucpr.carsrent.users.User
-import br.pucpr.carsrent.users.UserRepository
+import br.pucpr.carsrent.users.Users
+import br.pucpr.carsrent.users.UserRepositorys
 import br.pucpr.carsrent.vehicles.Vehicle
 import br.pucpr.carsrent.vehicles.VehicleRepository
 import org.springframework.context.ApplicationListener
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class Bootstrapper(
-    val userRepository: UserRepository,
+    val userRepository: UserRepositorys,
     val roleRepository: RoleRepository,
     val vehicleRepository: VehicleRepository,
     val bookingRepository: BookingRepository
@@ -38,11 +38,11 @@ class Bootstrapper(
         return adminUser
     }
 
-    private fun setupAdminUser(adminRole: Role): User {
+    private fun setupAdminUser(adminRole: Role): Users {
         val usersList = userRepository.findByRole(adminRole.name).toMutableList()
 
         if (usersList.isEmpty()) {
-            val admin = User(
+            val admin = Users(
                 name = "Administrator",
                 email = "admin@admin.com",
                 password = "admin"
@@ -79,7 +79,7 @@ class Bootstrapper(
         return vehicleList.first()
     }
 
-    private fun setupBooking(user: User, vehicle: Vehicle) {
+    private fun setupBooking(user: Users, vehicle: Vehicle) {
         if (bookingRepository.findByUserIdAndVehicleId(user.id!!, vehicle.id!!) == null) {
             val booking = Booking(
                 user = user,

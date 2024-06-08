@@ -12,13 +12,13 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
-class UserService(
-    val userRepository: UserRepository,
+class UserServices(
+    val userRepository: UserRepositorys,
     val roleRepository: RoleRepository,
     val bookingRepository: BookingRepository,
     val jwt: Jwt
 ) {
-    fun insert(user: User): User {
+    fun insert(user: Users): Users {
         if (userRepository.findByEmail(user.email) != null) {
             throw BadRequestException("User with e-mail ${user.email} already exists!")
         }
@@ -28,15 +28,15 @@ class UserService(
         }
     }
 
-    fun findAll(sortDir: SortDir, role: String?) = role?.let {
+    fun findAll(sortDir: SortDirectory, role: String?) = role?.let {
         when (sortDir) {
-            SortDir.ASC -> userRepository.findByRole(role.uppercase()).sortedBy { it.name }
-            SortDir.DESC -> userRepository.findByRole(role.uppercase()).sortedByDescending { it.name }
+            SortDirectory.ASC -> userRepository.findByRole(role.uppercase()).sortedBy { it.name }
+            SortDirectory.DESC -> userRepository.findByRole(role.uppercase()).sortedByDescending { it.name }
         }
     } ?: run {
         when (sortDir) {
-            SortDir.ASC -> userRepository.findAll(Sort.by("name").ascending())
-            SortDir.DESC -> userRepository.findAll(Sort.by("name").descending())
+            SortDirectory.ASC -> userRepository.findAll(Sort.by("name").ascending())
+            SortDirectory.DESC -> userRepository.findAll(Sort.by("name").descending())
         }
     }
 
@@ -89,6 +89,6 @@ class UserService(
     }
 
     companion object {
-        private val log = LoggerFactory.getLogger(UserService::class.java)
+        private val log = LoggerFactory.getLogger(UserServices::class.java)
     }
 }

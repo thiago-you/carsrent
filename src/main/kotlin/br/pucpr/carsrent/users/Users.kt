@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull
 
 @Entity
 @Table(name = "tblUsers")
-class User(
+class Users(
     @Id
     @GeneratedValue
     var id: Long? = null,

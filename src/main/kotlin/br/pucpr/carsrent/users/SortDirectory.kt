@@ -2,7 +2,7 @@ package br.pucpr.carsrent.users
 
 import br.pucpr.carsrent.exceptions.BadRequestException
 
-enum class SortDir {
+enum class SortDirectory {
     ASC, DESC;
 
     companion object {

@@ -1,6 +1,6 @@
 package br.pucpr.carsrent.security
 
-import br.pucpr.carsrent.users.User
+import br.pucpr.carsrent.users.Users
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.jackson.io.JacksonDeserializer
 import io.jsonwebtoken.jackson.io.JacksonSerializer
@@ -25,7 +25,7 @@ class Jwt(val properties: SecurityProperties) {
         private val log = LoggerFactory.getLogger(Jwt::class.java)
     }
 
-    fun createToken(user: User): String = UserToken(user).let {
+    fun createToken(user: Users): String = UserToken(user).let {
         Jwts.builder()
             .signWith(Keys.hmacShaKeyFor(properties.secret.toByteArray()))
             .serializeToJsonWith(JacksonSerializer())

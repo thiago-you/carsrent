@@ -2,7 +2,7 @@ package br.pucpr.carsrent.bookings
 
 import br.pucpr.carsrent.exceptions.BadRequestException
 import br.pucpr.carsrent.security.AuthUser
-import br.pucpr.carsrent.users.UserRepository
+import br.pucpr.carsrent.users.UserRepositorys
 import br.pucpr.carsrent.vehicles.VehicleRepository
 import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 class BookingService(
     val bookingRepository: BookingRepository,
     val vehicleRepository: VehicleRepository,
-    val userRepository: UserRepository,
+    val userRepository: UserRepositorys,
     val authUser: AuthUser
 ) {
     fun insert(booking: Booking): Booking {

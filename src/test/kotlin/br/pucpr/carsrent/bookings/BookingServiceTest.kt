@@ -3,7 +3,7 @@ package br.pucpr.carsrent.bookings
 import br.pucpr.carsrent.exceptions.BadRequestException
 import br.pucpr.carsrent.security.AuthUser
 import br.pucpr.carsrent.security.Jwt
-import br.pucpr.carsrent.users.UserRepository
+import br.pucpr.carsrent.users.UserRepositorys
 import br.pucpr.carsrent.users._user
 import br.pucpr.carsrent.vehicles.VehicleRepository
 import br.pucpr.carsrent.vehicles._vehicle
@@ -19,7 +19,7 @@ import org.springframework.data.repository.findByIdOrNull
 class BookingServiceTest {
     private val vehicleRepository = mockk<VehicleRepository>()
     private val bookingRepository = mockk<BookingRepository>()
-    private val userRepository = mockk<UserRepository>()
+    private val userRepository = mockk<UserRepositorys>()
     private val authUser = mockk<AuthUser>()
 
     private val service = BookingService(bookingRepository, vehicleRepository, userRepository, authUser)

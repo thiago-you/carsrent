@@ -8,11 +8,11 @@ import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
-class SortDirTest {
+class SortDirectoryTest {
     @Test
     fun `findOrThrow throws BadRequestException for invalid values`() {
         val error = assertThrows<BadRequestException> {
-            SortDir.findOrThrow("INVALID")
+            SortDirectory.findOrThrow("INVALID")
         }
 
         error.message shouldContainIgnoringCase "invalid"
@@ -21,12 +21,12 @@ class SortDirTest {
     @ParameterizedTest
     @ValueSource(strings = ["asc", "ASC", "aSc"])
     fun `findOrThrow returns SortDir for valid ASC values ignoring case`(dir: String) {
-        SortDir.findOrThrow(dir) shouldBe SortDir.ASC
+        SortDirectory.findOrThrow(dir) shouldBe SortDirectory.ASC
     }
 
     @ParameterizedTest
     @ValueSource(strings = ["desc", "DESC", "dESC"])
     fun `findOrThrow returns SortDir for valid DESC values ignoring case`(dir: String) {
-        SortDir.findOrThrow(dir) shouldBe SortDir.DESC
+        SortDirectory.findOrThrow(dir) shouldBe SortDirectory.DESC
     }
 }
